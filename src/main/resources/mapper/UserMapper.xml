@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mysis.project.dao.IUserDao">
+
+    <resultMap id="userVOResult" type="userVO">
+        <id     property="userId"       column="user_id"      />
+        <result property="deptId"       column="dept_id"      />
+        <result property="username"     column="username"     />
+        <result property="nickname"     column="nickname"     />
+        <result property="email"        column="email"        />
+        <result property="phoneNumber"  column="phone_number" />
+        <result property="sex"          column="sex"          />
+        <result property="avatar"       column="avatar"       />
+        <result property="password"     column="password"     />
+        <result property="status"       column="status"       />
+        <result property="delFlag"      column="del_flag"     />
+        <result property="loginIp"      column="login_ip"     />
+        <result property="loginDate"    column="login_date"   />
+        <result property="createBy"     column="create_by"    />
+        <result property="createTime"   column="create_time"  />
+        <result property="updateBy"     column="update_by"    />
+        <result property="updateTime"   column="update_time"  />
+        <result property="remark"       column="remark"       />
+        <association property="dept"    column="dept_id"    javaType="deptVO"    resultMap="deptVOResult" />
+        <collection property="roles"    javaType="java.util.List"    resultMap="roleVOResult"  />
+    </resultMap>
+
+    <resultMap id="deptVOResult" type="deptVO">
+        <id     property="deptId"   column="dept_id"     />
+        <result property="parentId" column="parent_id"   />
+        <result property="deptName" column="dept_name"   />
+        <result property="orderNum" column="order_num"   />
+        <result property="leader"   column="leader"      />
+        <result property="status"   column="dept_status" />
+    </resultMap>
+
+    <resultMap id="roleVOResult" type="roleVO">
+        <id     property="roleId"       column="role_id"        />
+        <result property="roleName"     column="role_name"      />
+        <result property="roleKey"      column="role_key"       />
+        <result property="roleSort"     column="role_sort"      />
+        <result property="dataScope"    column="data_scope"     />
+        <result property="status"       column="role_status"    />
+    </resultMap>
+
+    <sql id="selectUser">
+        select
+            u.user_id,
+            u.dept_id,
+            u.username,
+            u.nickname,
+            u.user_type,
+            u.email,
+            u.phone_number,
+            u.sex,
+            u.avatar,
+            u.password,
+            u.status,
+            u.del_flag,
+            u.login_ip,
+            u.login_date,
+            u.create_by,
+            u.create_time,
+            u.update_by,
+            u.update_time,
+            u.remark,
+            d.dept_id,
+            d.parent_id,
+            d.dept_name,
+            d.order_num,
+            d.leader,
+            d.status as dept_status,
+            r.role_id,
+            r.role_name,
+            r.role_key,
+            r.role_sort,
+            r.data_scope,
+            r.status as role_status
+        from user_t u
+        left join dept_t d
+            on u.dept_id = d.dept_id
+        left join user_role_t ur
+            on u.user_id = ur.user_id
+        left join role_t r
+            on ur.role_id = r.role_id
+    </sql>
+
+    <select id="selectUserByUsername" resultMap="userVOResult">
+        <include refid="selectUser"/>
+        where u.username = #{username};
+    </select>
+</mapper>
