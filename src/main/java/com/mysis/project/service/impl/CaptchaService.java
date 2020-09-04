@@ -31,7 +31,7 @@ public class CaptchaService implements ICaptchaService {
 
         String verifyCode = generateCode(VERIFY_SIZE);
         String uuid = UUID.randomUUID().toString();
-        String verifyKey = Constants.KEY_CAPTCHA + uuid;
+        String verifyKey = Constants.REDIS_KEY_CAPTCHA + uuid;
         redisCache.setCacheObject(verifyKey, verifyCode, CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
 
         ResultVO resultVO = ResultVO.success();

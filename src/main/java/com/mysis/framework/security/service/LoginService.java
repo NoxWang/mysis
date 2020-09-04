@@ -22,6 +22,9 @@ public class LoginService {
     @Resource
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenService tokenService;
+
     /**
      * 登录
      *
@@ -32,7 +35,7 @@ public class LoginService {
      * @return
      */
     public String login(String username, String password, String captcha, String uuid) {
-        String verifyKey = Constants.KEY_CAPTCHA + uuid;
+        String verifyKey = Constants.REDIS_KEY_CAPTCHA + uuid;
         String correctCaptcha = redisCache.getCacheObject(verifyKey);
         redisCache.deleteObject(verifyKey);
 
@@ -56,6 +59,8 @@ public class LoginService {
             }
         }
         LoginVO loginVO = (LoginVO) authentication.getPrincipal();
-        return "okk";
+
+        // 生成Token
+        return tokenService.createToken(loginVO);
     }
 }

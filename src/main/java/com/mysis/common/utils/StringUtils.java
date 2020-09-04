@@ -10,6 +10,10 @@ public class StringUtils {
         return str == null || str.length() == 0;
     }
 
+    public static boolean isNormal(String str) {
+        return !isNullOrEmpty(str);
+    }
+
     /**
      * 格式化文本
      *

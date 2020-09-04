@@ -23,6 +23,11 @@ public class BaseException extends RuntimeException {
      */
     private String errorMessage;
 
+    @Override
+    public String getMessage() {
+        return code;
+    }
+
     public BaseException(String module, String code, Object[] args, String errorMessage)
     {
         this.module = module;
@@ -63,11 +68,11 @@ public class BaseException extends RuntimeException {
         this.args = args;
     }
 
-    public String geterrorMessage() {
+    public String getErrorMessage() {
         return errorMessage;
     }
 
-    public void seterrorMessage(String errorMessage) {
+    public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 }

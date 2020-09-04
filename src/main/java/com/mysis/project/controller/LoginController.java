@@ -25,7 +25,7 @@ public class LoginController {
         ResultVO resultVO = ResultVO.success();
         String token = loginService.login(userLoginVO.getUsername(), userLoginVO.getPassword(),
                 userLoginVO.getCaptcha(), userLoginVO.getUuid());
-        resultVO.put(Constants.KEY_TOKEN, token);
+        resultVO.put(Constants.RESULT_KEY_TOKEN, token);
         return resultVO;
     }
 }

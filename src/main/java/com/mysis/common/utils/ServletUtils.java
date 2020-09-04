@@ -1,5 +1,9 @@
 package com.mysis.common.utils;
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -22,4 +26,14 @@ public class ServletUtils {
         }
         return null;
     }
+
+    public static HttpServletRequest getRequest() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return attributes.getRequest();
+    }
+
+    public static String getHeader(String key) {
+        return getRequest().getHeader(key);
+    }
+
 }
