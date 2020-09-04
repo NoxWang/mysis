@@ -30,6 +30,10 @@ public class BaseException extends RuntimeException {
         this.args = args;
         this.errorMessage = errorMessage;
     }
+
+    public BaseException(String module, String code) {
+        this(module, code, null, null);
+    }
     
     public BaseException(String errorMessage) {
         this(null, null, null, errorMessage);
