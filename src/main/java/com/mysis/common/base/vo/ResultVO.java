@@ -27,7 +27,7 @@ public class ResultVO extends HashMap<String, Object> {
 
     public ResultVO(int code, String msg, Object data) {
         super.put(KEY_CODE, code);
-        super.put(KEY_MSG, code);
+        super.put(KEY_MSG, msg);
         super.put(KEY_DATA, data);
     }
 

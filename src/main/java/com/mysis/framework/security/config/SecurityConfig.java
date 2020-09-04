@@ -1,5 +1,6 @@
 package com.mysis.framework.security.config;
 
+import com.mysis.framework.security.filter.JwtAuthenticationFilter;
 import com.mysis.framework.security.handler.AuthenticationEntryPointImpl;
 import com.mysis.framework.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Spring Security配置
@@ -35,6 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private AuthenticationEntryPointImpl unauthorizedHandler;
+
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     @Bean
@@ -66,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     /**
