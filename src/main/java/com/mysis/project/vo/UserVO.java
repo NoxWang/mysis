@@ -68,6 +68,10 @@ public class UserVO extends BaseVO {
     /** 岗位组 */
     private Long[] postIds;
 
+    public boolean isAdmin() {
+        return userId != null && userId == 1L;
+    }
+
     public Long getUserId() {
         return userId;
     }

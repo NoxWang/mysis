@@ -4,6 +4,7 @@ import com.mysis.common.base.exception.BaseException;
 import com.mysis.common.enums.UserStatusEnum;
 import com.mysis.common.utils.ObjectUtils;
 import com.mysis.framework.security.vo.LoginVO;
+import com.mysis.project.service.IPermissionService;
 import com.mysis.project.service.IUserService;
 import com.mysis.project.vo.UserVO;
 import org.slf4j.Logger;
@@ -25,6 +26,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IPermissionService permissionService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserVO userVO = userService.selectUserByUsername(username);
@@ -39,6 +43,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BaseException("对不起，您的帐号" + username + "已停用");
         }
 
-        return new LoginVO(userVO);
+        return new LoginVO(userVO, permissionService.getMenuPermission(userVO));
     }
 }
